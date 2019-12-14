@@ -1,7 +1,7 @@
-import Data.Sequence
+import Data.Sequence(fromList, update, Seq(..), index)
 import Data.Text (pack, splitOn, unpack)
-import Data.List
-import Data.Maybe
+import Data.List(elemIndex)
+import Data.Maybe(fromJust)
 
 main :: IO ()
 main = print . fromJust . findResult 19690720 . map read . split "," =<< readFile "input.txt"
