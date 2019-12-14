@@ -1,9 +1,7 @@
 import Data.Text (pack, splitOn, unpack)
-import Data.List (sortOn)
+import Data.List (sort)
 import Data.Set (Set, fromList, union, empty)
 import Data.Map (fromSet, toList, intersectionWith)
-
-import Debug.Trace
 
 data Instruction =
   Instruction Direction Int
@@ -49,9 +47,8 @@ parseInstruction (dir:n) = Instruction (parseDir dir) (read n)
       'D' -> D
       'L' -> L
 
-
 closest :: [Instruction] -> [Instruction] -> Int
-closest i1 i2 = snd . head . sortOn snd . toList $ intersectionWith (+) (stepMap i1) (stepMap i2)
+closest i1 i2 = head . sort . map snd . toList $ intersectionWith (+) (stepMap i1) (stepMap i2)
   where stepMap = fromSet steps . coords
 
 coords :: [Instruction] -> Set Coord
