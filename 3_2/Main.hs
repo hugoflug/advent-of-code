@@ -19,10 +19,10 @@ data Coord =
   deriving Show
 
 instance Eq Coord where
-  c1 == c2 = (coord c1) == (coord c2)
+  c1 == c2 = coord c1 == coord c2
 
 instance Ord Coord where
-  c1 <= c2 = (coord c1) <= (coord c2)
+  c1 <= c2 = coord c1 <= coord c2
 
 main :: IO ()
 main = print . uncurry closest . parse =<< readFile "input.txt"
@@ -62,7 +62,10 @@ coordsFrom :: Coord -> Instruction -> [Coord]
 coordsFrom coord (Instruction direction n) = move direction coord <$> [1 .. n]
 
 move :: Direction -> Coord -> Int -> Coord
-move U (Coord (x, y) s) n = Coord (x, y - n) (s + n)
-move D (Coord (x, y) s) n = Coord (x, y + n) (s + n)
-move R (Coord (x, y) s) n = Coord (x + n, y) (s + n)
-move L (Coord (x, y) s) n = Coord (x - n, y) (s + n)
+move dir (Coord (x, y) s) n = Coord newCoord (s + n)
+  where 
+    newCoord = case dir of
+      U -> (x, y - n)
+      D -> (x, y + n)
+      R -> (x + n, y)
+      L -> (x - n, y)
