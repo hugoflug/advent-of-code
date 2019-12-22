@@ -1,10 +1,9 @@
+module AOC4_2(solve) where
+
 import Data.List(group, any)
 
-main :: IO ()
-main = print $ checkAll 245182 790572
-
-checkAll :: Int -> Int -> Int
-checkAll from to = length . filter check $ digits <$> [from..to]
+solve :: Int -> Int -> Int
+solve from to = length . filter check $ digits <$> [from..to]
 
 check :: [Int] -> Bool
 check list = ascending list && (any ((==) 2 . length) . group) list 

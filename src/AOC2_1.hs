@@ -1,8 +1,10 @@
+module AOC2_1(solve) where
+
 import Data.Sequence
 import Data.Text(pack, unpack, splitOn)
 
-main :: IO ()
-main = print . flip index 0 . interpret 0 . restore . fromList . map read . split "," =<< readFile "input.txt"
+solve :: String -> Int
+solve = flip index 0 . interpret 0 . restore . fromList . map read . split ","
 
 restore :: Seq Int -> Seq Int
 restore = update 1 12 . update 2 2

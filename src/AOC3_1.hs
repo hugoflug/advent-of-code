@@ -1,7 +1,8 @@
+module AOC3_1(solve) where
+
 import Data.Text (pack, splitOn, unpack)
-import Data.List (sort)
-import Data.Set (Set, fromList, union, empty)
-import Data.Map (fromSet, toList, intersectionWith)
+import Data.List (sortOn)
+import Data.Set (Set, fromList, toList, intersection, union, empty)
 
 data Instruction =
   Instruction Direction Int
@@ -11,21 +12,10 @@ data Direction =
   U | R | D | L
   deriving (Eq, Show)
 
-data Coord = 
-  Coord {
-    coord :: (Int, Int),
-    steps :: Int
-  }
-  deriving Show
+type Coord = (Int, Int)
 
-instance Eq Coord where
-  c1 == c2 = coord c1 == coord c2
-
-instance Ord Coord where
-  c1 <= c2 = coord c1 <= coord c2
-
-main :: IO ()
-main = print . uncurry closest . parse =<< readFile "input.txt"
+solve :: String -> Int
+solve = uncurry closestDist . parse
 
 parse :: String -> ([Instruction], [Instruction])
 parse input = 
@@ -47,12 +37,17 @@ parseInstruction (dir:n) = Instruction (parseDir dir) (read n)
       'D' -> D
       'L' -> L
 
-closest :: [Instruction] -> [Instruction] -> Int
-closest i1 i2 = head . sort . map snd . toList $ intersectionWith (+) (stepMap i1) (stepMap i2)
-  where stepMap = fromSet steps . coords
+closestDist :: [Instruction] -> [Instruction] -> Int
+closestDist i1 i2 = manhattan $ closest i1 i2
+
+closest :: [Instruction] -> [Instruction] -> Coord
+closest i1 i2 = head . sortOn manhattan . toList $ intersection (coords i1) (coords i2)
+
+manhattan :: Coord -> Int
+manhattan (x, y) = (abs x) + (abs y)
 
 coords :: [Instruction] -> Set Coord
-coords = fst . foldl accCoords (empty, Coord (0, 0) 0)
+coords = fst . foldl accCoords (empty, (0, 0))
   where 
     accCoords (acc, cur) instr = 
       let newCoords = coordsFrom cur instr in
@@ -62,10 +57,7 @@ coordsFrom :: Coord -> Instruction -> [Coord]
 coordsFrom coord (Instruction direction n) = move direction coord <$> [1 .. n]
 
 move :: Direction -> Coord -> Int -> Coord
-move dir (Coord (x, y) s) n = Coord newCoord (s + n)
-  where 
-    newCoord = case dir of
-      U -> (x, y - n)
-      D -> (x, y + n)
-      R -> (x + n, y)
-      L -> (x - n, y)
+move U (x, y) n = (x, y - n)
+move D (x, y) n = (x, y + n)
+move R (x, y) n = (x + n, y)
+move L (x, y) n = (x - n, y)

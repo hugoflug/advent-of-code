@@ -1,11 +1,14 @@
+module AOC5_1(solve, runInterpreter) where
+
 import Data.Sequence(fromList, update, Seq(..), index)
 import Data.Text (pack, splitOn, unpack)
 import Control.Monad.Writer
 
-data ParameterMode = Position | Immediate deriving (Eq, Show)
-
-main :: IO ()
-main = print . execWriter . interpret 0 . fromList . map read . split "," =<< readFile "input.txt"
+solve :: String -> Int
+solve = last . runInterpreter
+  
+runInterpreter :: String -> [Int]
+runInterpreter = execWriter . interpret 0 . fromList . map read . split ","
 
 arithmetic :: (Int -> Int -> Int) -> Int -> Int -> Int -> Seq Int -> Seq Int
 arithmetic op a b c program = update c (a `op` b) program

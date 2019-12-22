@@ -1,10 +1,12 @@
+module AOC2_2(solve) where
+
 import Data.Sequence(fromList, update, Seq(..), index)
 import Data.Text (pack, splitOn, unpack)
 import Data.List(elemIndex)
 import Data.Maybe(fromJust)
 
-main :: IO ()
-main = print . fromJust . findResult 19690720 . map read . split "," =<< readFile "input.txt"
+solve :: String -> Int
+solve = fromJust . findResult 19690720 . map read . split ","
 
 findResult :: Int -> [Int] -> Maybe Int
 findResult goal input =

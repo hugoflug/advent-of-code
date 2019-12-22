@@ -1,8 +1,7 @@
-main :: IO ()
-main = print $ checkAll 245182 790572
+module AOC4_1(solve) where
 
-checkAll :: Int -> Int -> Int
-checkAll from to = length . filter check $ digits <$> [from..to]
+solve :: Int -> Int -> Int
+solve from to = length . filter check $ digits <$> [from..to]
 
 check :: [Int] -> Bool
 check = check' False
