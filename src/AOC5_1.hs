@@ -23,8 +23,8 @@ interpret :: Int -> Seq Int -> Writer [Int] (Seq Int)
 interpret ix program =
   let 
     [a3mode, a2mode, a1mode, op1, op2] = digits5 (off 0) 
-    [a1, a2, a3] = uncurry param <$> [a1mode, a2mode, a3mode] `zip` [1..3]
-    [d1, d2, d3] = off <$> [1..3]
+    [a1, a2, _] = uncurry param <$> [a1mode, a2mode, a3mode] `zip` [1..3]
+    [d1, _, d3] = off <$> [1..3]
     op = undigits [op1, op2]
     param mode n = if mode == 1 then off n else index program (off n)
     off n = index program (ix + n)

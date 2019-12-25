@@ -11,6 +11,7 @@ import qualified AOC5_1
 import qualified AOC5_2
 import qualified AOC6_1
 import qualified AOC6_2
+import qualified AOC7_1
 
 withInput = it "GOLD STAR *"
 
@@ -88,3 +89,9 @@ main = hspec . parallel $ do
     withInput $ do
       input <- readFile "test/AOC6.txt"
       AOC6_2.solve input `shouldBe` 349
+  describe "7_1" $ do
+    it "should handle a simple example" $
+      AOC7_1.solve "3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0" `shouldBe` 43210
+    withInput $ do
+      input <- readFile "test/AOC7.txt"
+      AOC7_1.solve input `shouldBe` 38834
