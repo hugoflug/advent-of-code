@@ -13,6 +13,7 @@ import qualified AOC6_1
 import qualified AOC6_2
 import qualified AOC7_1
 import qualified AOC7_2
+import qualified AOC8_1
 
 withInput = it "GOLD STAR *"
 
@@ -104,3 +105,7 @@ main = hspec $ do
       input <- readFile "test/AOC7.txt"
       result <- AOC7_2.solve input 
       result `shouldBe` 69113332
+  describe "8_1" $ do
+    withInput $ do
+      input <- readFile "test/AOC8.txt"
+      AOC8_1.solve input `shouldBe` 12345
