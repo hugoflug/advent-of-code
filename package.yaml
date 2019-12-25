@@ -7,6 +7,8 @@ dependencies:
 - containers
 - text
 - mtl
+- stm
+- parallel
 
 library:
   source-dirs: src
